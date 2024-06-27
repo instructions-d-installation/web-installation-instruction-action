@@ -23,7 +23,7 @@
 ## Deploy to GH Pages on Change
 
 1. Follow the [guide](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site#creating-a-repository-for-your-site) for enabling gh pages for your account.
-2. Set und Settings > Pages > GitHub Pages > Build and deployment  Source to `Deploy from a branch`.
+2. Set `Settings > Pages > GitHub Pages > Build and deployment > Source` to `Deploy from a branch`.
 3. Create a yaml file in `.github/workflows` folder (for example `webpage.yaml`) and put the following content into it:
 
 ```yaml
@@ -54,6 +54,6 @@ jobs:
           folder: ./public
 ```
 
-4. Push it.
-5. Go to actions and execute it at least once.
-6. Check under Settings > Pages > GitHub Pages > Build and deployment if "Branch" is set to "gh-pages".
+4. Push it. And wait for `JamesIves/github-pages-deploy-action` to do it's thing. (See actions.)
+5. Go to actions and execute the workflow at least once.
+6. Check under `Settings > Pages > GitHub Pages > Build and deployment` if `Branch` is set to `gh-pages`.
