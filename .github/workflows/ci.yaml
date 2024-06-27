@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Github Action
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build HTML
+        uses: ./
+        with:
+          path: ./tests/install.cfg
+      - name: Assert Output
+        shell: pwsh
+        run: if ( !(get-content .\public\index.html) ) { exit 1 }

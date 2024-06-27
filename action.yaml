@@ -5,10 +5,10 @@ branding:
   color: orange
 inputs:
   path:
-    description: Path to directory, file or a remote git repository url containing the config file.
-    required: true
+    description: Path to config file. Defaults to ./install.cfg
+    default: ./install.cfg
   output:
-    description: Path to directory, where the html file is written to. Defaults to ./public subdirectory.
+    description: Path to directory, where the html file is written to. Defaults to ./public directory.
     default: ./public
   version:
     description: Version of web-installation-instruction to use. If not specified, uses the latest version.
@@ -25,11 +25,11 @@ runs:
     - name: Install Web Installation Instruction (latest)
       if: ${{ inputs.version == '' }}
       shell: pwsh
-      run: ${{ steps.cp312.outputs.python-path }} -m pip install installation-instruction
+      run: ${{ steps.cp312.outputs.python-path }} -m pip install web-installation-instruction
     - name: Install Web Installation Instruction (with version)
       if: ${{ inputs.version != '' }}
       shell: pwsh
-      run: ${{ steps.cp312.outputs.python-path }} -m pip install 'installation-instruction==${{ inputs.version }}'
+      run: ${{ steps.cp312.outputs.python-path }} -m pip install 'web-installation-instruction==${{ inputs.version }}'
     - name: Build HTML
       shell: pwsh
       run: ${{ steps.cp312.outputs.python-path }} -m web_installation_instruction -i ${{ inputs.path }} -o ${{ inputs.output }}
