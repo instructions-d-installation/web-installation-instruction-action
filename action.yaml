@@ -1,0 +1,35 @@
+name: Web Installation Instruction Action
+description: Action for building webpage from install config file. 
+branding:
+  icon: file-text
+  color: orange
+inputs:
+  path:
+    description: Path to directory, file or a remote git repository url containing the config file.
+    required: true
+  output:
+    description: Path to directory, where the html file is written to. Defaults to ./public subdirectory.
+    default: ./public
+  version:
+    description: Version of web-installation-instruction to use. If not specified, uses the latest version.
+
+runs:
+  using: composite
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v5
+      id: cp312
+      with:
+        python-version: 3.12
+        update-environment: false
+    - name: Install Web Installation Instruction (latest)
+      if: ${{ inputs.version == '' }}
+      shell: pwsh
+      run: ${{ steps.cp312.outputs.python-path }} -m pip install installation-instruction
+    - name: Install Web Installation Instruction (with version)
+      if: ${{ inputs.version != '' }}
+      shell: pwsh
+      run: ${{ steps.cp312.outputs.python-path }} -m pip install 'installation-instruction==${{ inputs.version }}'
+    - name: Build HTML
+      shell: pwsh
+      run: ${{ steps.cp312.outputs.python-path }} -m web_installation_instruction -i ${{ inputs.path }} -o ${{ inputs.output }}
